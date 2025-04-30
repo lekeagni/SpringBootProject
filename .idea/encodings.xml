@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Eureka-service/Eureka-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GateWay-service/GateWay-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/client/client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order/order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product (1)/product/src/main/java" charset="UTF-8" />
+  </component>
+</project>
