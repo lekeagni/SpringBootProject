@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@Tag(name = "test des produits", description = "test des endpoints du servie product avec Swagger")
+@Tag(name = "test product", description = "test APIs products with Swagger")
 public class ProductController {
 
     private final ProductService productService;

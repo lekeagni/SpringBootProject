@@ -8,11 +8,13 @@ import com.example.product.model.ProductModel;
 import com.example.product.repository.ProductRepository;
 import com.example.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -45,16 +47,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(int productId, ProductDTO dto) {
-        Optional<ProductModel> exist = this.productRepository.findById(productId);
-        if (productId == dto.getProductId() && exist.isPresent()){
-            ProductModel p = exist.get();
-            p.setName(dto.getName());
-            p.setPrice(dto.getPrice());
-            p.setQuantity(dto.getQuantity());
+        ProductModel exist = this.productRepository.findById(productId)
+                .orElseThrow(()->new ProductNotFoundException(productId));
 
-            return productMapper.toDTO(this.productRepository.save(p));
-        }
-        throw  new ProductNotFoundException(productId);
+            exist.setName(dto.getName());
+            exist.setPrice(dto.getPrice());
+            exist.setQuantity(dto.getQuantity());
+
+            ProductModel saved = this.productRepository.save(exist);
+
+            return productMapper.toDTO(saved);
+
     }
 
     @Override

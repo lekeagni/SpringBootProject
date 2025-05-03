@@ -45,15 +45,15 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO updateClient(int clientId, ClientDTO dto) {
-        Optional<ClientModel> founds = this.clientRepository.findById(clientId);
-        if (clientId == dto.getClientId() && founds.isPresent()){
-            ClientModel cl = founds.get();
-            cl.setName(dto.getName());
-            cl.setEmail(dto.getEmail());
-            cl.setNumber(dto.getNumber());
-            return  clientMapper.toDTO(this.clientRepository.save(cl));
-        }
-       throw new ClientNotFoundException(clientId);
+        ClientModel founds = this.clientRepository.findById(clientId)
+                .orElseThrow(()->new ClientNotFoundException(clientId));
+
+            founds.setName(dto.getName());
+            founds.setEmail(dto.getEmail());
+            founds.setNumber(dto.getNumber());
+        ClientModel saved = this.clientRepository.save(founds);
+            return  clientMapper.toDTO(saved);
+
     }
 
     @Override
