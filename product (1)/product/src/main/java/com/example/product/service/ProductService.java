@@ -12,6 +12,8 @@ public interface ProductService {
 
     public List<ProductDTO>getAllProducts();
 
+    public ProductDTO getProductById(int productId);
+
     public ProductDTO updateProduct( int productId, ProductDTO dto);
 
     public Boolean deleteProduct(int productId);

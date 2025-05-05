@@ -12,6 +12,8 @@ public interface ClientService {
 
     public List<ClientDTO> getAllClient();
 
+    public ClientDTO getClientById(int clientId);
+
     public ClientDTO updateClient(int clientId, ClientDTO dto);
 
     public Boolean deleteClient(int clientId);

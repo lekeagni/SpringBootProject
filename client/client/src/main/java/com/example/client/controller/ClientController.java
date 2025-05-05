@@ -45,6 +45,17 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).body(this.clientService.getAllClient());
     }
 
+    @Operation(summary = "get client by her id", description = "get client by id in database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "  client get successful"),
+            @ApiResponse(responseCode = "404", description = "client not found"),
+            @ApiResponse(responseCode = "500", description = " error server")
+    })
+    @GetMapping("/{clientId}")
+    public ResponseEntity<ClientDTO> getById(@PathVariable int clientId){
+        return ResponseEntity.status(HttpStatus.OK).body(this.clientService.getClientById(clientId));
+    }
+
     @PutMapping("/update/{clientId}")
     @Operation(summary = "update client", description = "update client wo exist in database")
     @ApiResponses(value = {

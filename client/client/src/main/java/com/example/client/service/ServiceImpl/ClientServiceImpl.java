@@ -9,6 +9,8 @@ import com.example.client.repository.ClientRepository;
 import com.example.client.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +21,11 @@ public class ClientServiceImpl implements ClientService {
 
     private  final ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    private final RestTemplate restTemplate;
+
+    public ClientServiceImpl(ClientRepository clientRepository, RestTemplate restTemplate) {
         this.clientRepository = clientRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Autowired
@@ -42,6 +47,13 @@ public class ClientServiceImpl implements ClientService {
         List<ClientModel> clientModels = this.clientRepository.findAll();
         return clientModels.stream().map(clientMapper::toDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public ClientDTO getClientById(int clientId) {
+        ClientModel clientModel = this.clientRepository.findById(clientId).orElseThrow(()->new ClientNotFoundException(clientId));
+        return clientMapper.toDTO(clientModel);
+    }
+
 
     @Override
     public ClientDTO updateClient(int clientId, ClientDTO dto) {

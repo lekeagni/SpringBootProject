@@ -9,6 +9,8 @@ import com.example.product.repository.ProductRepository;
 import com.example.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +21,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    private final RestTemplate restTemplate;
+
+    public ProductServiceImpl(ProductRepository productRepository, RestTemplate restTemplate) {
+
         this.productRepository = productRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Autowired
@@ -43,6 +49,12 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAllProducts() {
         List<ProductModel> product = this.productRepository.findAll();
         return product.stream().map(productMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDTO getProductById(int productId) {
+       ProductModel productModel = this.productRepository.findById(productId).orElseThrow(()->new ProductNotFoundException(productId));
+       return productMapper.toDTO(productModel);
     }
 
     @Override

@@ -43,6 +43,17 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(this.productService.getAllProducts());
     }
 
+    @Operation(summary = "list one product", description = "get one product by id in database ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = " get one  product successful"),
+            @ApiResponse(responseCode = "404", description = "client not found"),
+            @ApiResponse(responseCode = "500", description = "error server")
+    })
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDTO> getById(@PathVariable int productId){
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.getProductById(productId));
+    }
+
     @PutMapping("/update/{productId}")
     @Operation(summary = "update product", description = "update product with exist in database ")
     @ApiResponses(value = {

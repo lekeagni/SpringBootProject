@@ -1,8 +1,8 @@
-package com.example.client.exception;
+package com.example.order.exception;
 
 public class ClientNotFoundException extends CustomException {
     public ClientNotFoundException(Integer clientId) {
 
-      super("client not found with "+ clientId);
+        super("client not found with "+ clientId);
     }
 }
