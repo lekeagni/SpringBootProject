@@ -21,11 +21,9 @@ public class ClientServiceImpl implements ClientService {
 
     private  final ClientRepository clientRepository;
 
-    private final RestTemplate restTemplate;
 
-    public ClientServiceImpl(ClientRepository clientRepository, RestTemplate restTemplate) {
+    public ClientServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.restTemplate = restTemplate;
     }
 
     @Autowired
@@ -50,7 +48,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO getClientById(int clientId) {
-        ClientModel clientModel = this.clientRepository.findById(clientId).orElseThrow(()->new ClientNotFoundException(clientId));
+        ClientModel clientModel = this.clientRepository.findById(clientId)
+                .orElseThrow(()->new ClientNotFoundException(clientId));
         return clientMapper.toDTO(clientModel);
     }
 

@@ -47,9 +47,30 @@ public class OrderController {
     }
 
     @PutMapping("/update/{orderId}")
+    @Operation(summary = "update order", description = "update order in database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "updated order successful"),
+            @ApiResponse(responseCode = "400", description = "this order not found"),
+            @ApiResponse(responseCode = "500", description = "error server")
+    })
     public ResponseEntity<OrderDTO>update(@PathVariable int orderId, @RequestBody OrderDTO dto){
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(this.orderService.updateOrder(orderId,dto));
     }
 
     @DeleteMapping("/delete/{orderId}")
+    @Operation(summary = "delete order", description = "delete order in database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "deleted order successful"),
+            @ApiResponse(responseCode = "400", description = "this order already exist"),
+            @ApiResponse(responseCode = "500", description = "error server")
+    })
+    public ResponseEntity<Boolean> delete(@PathVariable int orderId){
+        boolean exist = this.orderService.delete(orderId);
+        if (exist){
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+    }
+
+
 }

@@ -21,12 +21,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    private final RestTemplate restTemplate;
-
-    public ProductServiceImpl(ProductRepository productRepository, RestTemplate restTemplate) {
+    public ProductServiceImpl(ProductRepository productRepository) {
 
         this.productRepository = productRepository;
-        this.restTemplate = restTemplate;
     }
 
     @Autowired

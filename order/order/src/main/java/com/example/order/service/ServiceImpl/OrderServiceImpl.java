@@ -71,7 +71,27 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO updateOrder(int orderId, OrderDTO dto) {
-        return null;
+        OrderModel orderExist = this.orderRepository.findById(orderId)
+                .orElseThrow(()->new OrderNotFoundException(orderId));
+
+        try {
+           restTemplate.getForObject("http://PRODUCT/products/"+dto.getProductId(), ProductDTO.class);
+        }catch (HttpClientErrorException.NotFound e){
+            throw new ProductNotFoundException(dto.getProductId());
+        }
+
+        try {
+            restTemplate.getForObject("http://CLIENT/clients/"+dto.getClientId(), ClientDTO.class);
+        }catch (HttpClientErrorException.NotFound e){
+            throw new ClientNotFoundException(dto.getClientId());
+        }
+
+        orderExist.setProductId(dto.getProductId());
+        orderExist.setClientId(dto.getClientId());
+        orderExist.setQuantity(dto.getQuantity());
+        orderExist.setDateOrder(LocalDateTime.now());
+
+        return orderMapper.toDTO(this.orderRepository.save(orderExist));
     }
 
     @Override
